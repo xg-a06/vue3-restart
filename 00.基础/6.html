@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- <div id="root"><div >{{message}}</div></div> -->
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'hello world',
+        };
+      },
+      beforeCreate() {
+        console.log('beforeCreate', this.message);
+      },
+      created() {
+        console.log('created', this.message);
+      },
+      beforeMount() {
+        console.log('beforeMount');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      mounted() {
+        console.log('mounted');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      beforeUpdate() {
+        console.log('beforeUpdate');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      updated() {
+        console.log('updated');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      beforeUnmount() {
+        console.log('beforeUnmount');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      unmounted() {
+        console.log('unmounted');
+        console.log(document.getElementById('root').innerHTML);
+      },
+      template: '<div >{{message}}</div>',
+    });
+    const vm = app.mount('#root');
+    vm.$data.message = 'test';
+    app.unmount();
+  </script>
+</html>

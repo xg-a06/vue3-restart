@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // mixin options如果冲突，无法覆盖目标options
+    const testMixin = {
+      number: 1,
+    };
+
+    const app = Vue.createApp({
+      number: 2,
+      mixins: [testMixin],
+      template: `
+        <div >{{this.$options.number}}</div>
+        <button >start</button>
+      `,
+    });
+
+    // 但是可以通过组件的config.optionMergeStragies指定某个属性的合并逻辑
+    app.config.optionMergeStrategies.number = (mixinVal, comVal) => {
+      return mixinVal || comVal;
+    };
+
+    const vm = app.mount('#root');
+  </script>
+</html>

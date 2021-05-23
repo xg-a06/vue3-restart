@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes shake {
+        0% {
+          transform: translateX(0px);
+        }
+        25% {
+          transform: translateX(-100px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(100px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
+      .v-enter-from {
+        color: red;
+      }
+      .v-enter-to {
+        color: blue;
+      }
+      .v-leave-from {
+        color: blue;
+      }
+      .v-leave-to {
+        color: red;
+      }
+      .v-leave-active,
+      .v-enter-active {
+        transition: all 1s ease-out;
+        animation: shake 5s ease-out;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // transition组件css的属性用于指定是否使用css动画或者过度 默认为true
+    // 可以用js实现动画 transition组件提供了事件钩子
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: false,
+        };
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show;
+        },
+        handleBeforeEnter(el) {
+          el.style.color = 'red';
+        },
+        handleEnter(el, done) {
+          const timerId = setInterval(() => {
+            const { color } = el.style;
+            if (color === 'red') {
+              el.style.color = 'blue';
+            } else {
+              el.style.color = 'red';
+            }
+          }, 1000);
+
+          setTimeout(() => {
+            clearInterval(timerId);
+            done(); // 调用done函数才会触发@after-enter
+          }, 3000);
+        },
+        handleAfterEnter(el) {
+          el.style.color = 'yellow';
+        },
+      },
+      template: `
+        <transition 
+          :css="false" 
+          @before-enter="handleBeforeEnter"
+          @enter="handleEnter"
+          @after-enter="handleAfterEnter"
+        >
+          <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

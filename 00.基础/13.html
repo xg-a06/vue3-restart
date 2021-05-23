@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      methods: {
+        handlekeyDown() {
+          console.log(1);
+        },
+      },
+      // 按键修饰符 enter tab delete esc up down left right ctrl
+      // 鼠标修饰符 left right middel
+      // 精确修饰符 exact
+      template: `
+        <div >
+          <input @keydown.right="handlekeyDown"/>
+          <div @click.right="handlekeyDown">点我</div>
+          <div @click.right.exact="handlekeyDown">精准右键</div>
+        </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

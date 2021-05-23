@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: true,
+          condition1: false,
+          condition2: true,
+          message: 'hello world',
+        };
+      },
+      template: `
+      <div v-if="show">{{message}}</div>
+      <div v-show="show">{{message}}</div>
+      
+      <div v-if="condition1">if</div>
+      <div v-else-if="condition2">elseif</div>
+      <div v-else="show">else</div>
+      `,
+    });
+    const vm = app.mount('#root');
+    vm.show = false;
+  </script>
+</html>

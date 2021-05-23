@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 全局mixin 会自动mixin所有组件 除特殊需求不推荐使用
+    const app = Vue.createApp({
+      data() {
+        return {
+          number: 1,
+        };
+      },
+      created() {
+        console.log('com created');
+      },
+      methods: {
+        handleClick() {
+          console.log('com handleClick');
+        },
+      },
+      template: `
+        <div >{{number}}</div>
+        <div >{{number2}}</div>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    app.mixin({
+      data() {
+        return { number2: 2 }; // 如果冲突，无法覆盖目标data
+      },
+      created() {
+        //生命周期mixin先于目标组件
+        console.log('mixin created');
+      },
+      methods: {
+        // 如果冲突，无法覆盖目标methods
+        handleClick() {
+          console.log('mixin handleClick');
+        },
+      },
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

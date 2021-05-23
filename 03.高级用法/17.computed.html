@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const { ref, computed } = Vue;
+
+        const count = ref(0);
+
+        const handleClick = () => {
+          count.value += 1;
+        };
+        const countDoubel = computed(() => count.value * 2);
+
+        let countDoubel2 = computed({
+          get: () => {
+            return count.value * 2;
+          },
+          set: (v) => {
+            count.value = v;
+          },
+        });
+
+        setTimeout(() => {
+          countDoubel2.value = 100;
+        }, 2000);
+        
+        return { count, handleClick, countDoubel, countDoubel2 };
+      },
+      template: `
+        <div @click="handleClick">
+            {{count}}
+            {{countDoubel}}
+            {{countDoubel2}}
+        </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

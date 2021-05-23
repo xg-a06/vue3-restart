@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 动态组件 如果有需要可以使keep-alive标签缓存组件数据
+    const app = Vue.createApp({
+      data() {
+        return {
+          currentCom: 'com1',
+        };
+      },
+      methods: {
+        handleClick() {
+          if (this.currentCom === 'com2') {
+            this.currentCom = 'com1';
+          } else {
+            this.currentCom = 'com2';
+          }
+        },
+      },
+      template: `
+        <div>
+          <keep-alive>
+            <component :is="currentCom"/>
+          </keep-alive>
+          <button @click="handleClick">toggle</button>
+        </div>
+      `,
+    });
+
+    app.component('com1', {
+      template: `<input/>`,
+    });
+
+    app.component('com2', {
+      template: `<div>123</div>`,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

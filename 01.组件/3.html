@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // v-bind直接跟一个对象 可以自动展开 精简语法
+    // 传属性的时候不能用驼峰 会自动转小写 建议使用中横线分割 中横线接收的时候会转驼峰
+    // 父组件可以传递值给子组件 子组件可以使用 但不能修改 是只读的 单项数据流 好处是防止多子组件改动无法追踪 也会影响预期结果
+    const app = Vue.createApp({
+      data() {
+        return {
+          params: {
+            num1: 123,
+            num2: 456,
+            num3: 789,
+          },
+        };
+      },
+      template: `
+        <div>
+          <test :="params" data-a="asdf"/>
+        </div>
+      `,
+    });
+    // String Number Boolean Array Object Function Symbol
+    app.component('test', {
+      props: ['dataA', 'num1', 'num2', 'num3'],
+      template: '<div>{{dataA}}-{{num1}}-{{num2}}-{{num3}}</div>',
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const { ref, provide, readonly, onMounted } = Vue;
+
+        const name = ref('123');
+        provide('name', readonly(name));
+        provide('changeName', (v) => {
+          name.value = v;
+        });
+
+        // dom ref
+        const dddd = ref(null);
+        onMounted(() => {
+          console.log('dddd', dddd.value);
+        });
+
+        return { dddd };
+      },
+      template: `
+        <div ref="dddd">
+            <test />
+        </div>
+      `,
+    });
+
+    app.component('test', {
+      setup() {
+        const { inject } = Vue;
+
+        const name = inject('name', 'defaultValue');
+        const changeName = inject('changeName');
+        const handleClick = () => {
+          // name.value = 'ffff'; // readonly会报错
+          changeName('ffff');
+        };
+
+        return { name, handleClick };
+      },
+      template: `
+      <div @click="handleClick">
+        {{name}}
+      </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

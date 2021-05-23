@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .header {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: blue;
+      }
+      .mask {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // vue3新特性 传送门 类似react的createPortal 但是和react不同的是没有事件的逻辑层级关系 比如冒泡
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: false,
+          message: 'test',
+        };
+      },
+      methods: {
+        handleClick() {
+          console.log('click');
+        },
+      },
+      template: `
+        <div class="header" @click="handleClick">
+          <button @click="show=!show">click</button>
+          <teleport to="body">
+            <div class="mask" v-show="show">{{message}}</div>
+          </teleport>
+        </div>
+        
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

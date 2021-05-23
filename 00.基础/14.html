@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'hello',
+          check: false,
+          checkGroup: [],
+          radio: false,
+          radioGroup: '',
+          selected: 'a',
+          selectedValue: 'a',
+          selectedValues: ['a'],
+          options: [
+            { text: 'aa', value: 'a' },
+            { text: 'bb', value: 'b' },
+            { text: 'cc', value: 'c' },
+            { text: 'dd', value: { asd: 'd' } },
+          ],
+        };
+      },
+      template: `
+        <div >
+          {{message}}
+          <input :value="message"/>
+          <input v-model="message"/>
+          <textarea v-model="message"/>
+          {{check}}
+          <input type="checkbox" v-model="check"/>
+          {{checkGroup}}
+          <input type="checkbox" v-model="checkGroup" value="a"/>
+          <input type="checkbox" v-model="checkGroup" value="b"/>
+          <input type="checkbox" v-model="checkGroup" value="c"/>
+          {{radio}}
+          <input id="asd" type="radio" v-model="radio" />
+          {{radioGroup}}
+          <input name="group" type="radio" v-model="radioGroup" value="a"/>
+          <input name="group" type="radio" v-model="radioGroup" value="b"/>
+          <input name="group" type="radio" v-model="radioGroup" value="c"/>
+          {{selectedValue}}
+          <select v-model="selectedValue">
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+            <option>d</option>
+          </select>
+          {{selectedValues}}
+          <select multiple v-model="selectedValues">
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+            <option>d</option>
+          </select>
+          {{selected}}
+          <select  v-model="selected">
+            <option v-for="item in options" :value="item.value">{{item.text}}</option>
+          </select>
+        </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

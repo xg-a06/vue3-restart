@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 作用域插槽
+    const app = Vue.createApp({
+      template: `
+        <!-- <list v-slot="slotProps"><span>{{slotProps.item}}</span></list>-->
+        <list v-slot="{item}">
+          <span>{{item}}</span>
+        </list>
+      `,
+    });
+
+    app.component('list', {
+      data() {
+        return {
+          list: ['aa', 'bb', 'cc'],
+        };
+      },
+      template: `
+      <div>
+        <slot v-for="item in list" :item="item"></slot>
+      </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

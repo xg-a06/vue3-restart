@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 关于v-model的实现原理
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 1,
+        };
+      },
+      template: `
+        <div>
+          <test v-model:testValue="count"/>
+        </div>
+      `,
+    });
+
+    // modelValue是v-model的默认值 如需更换需要显示指定 testValue
+    app.component('test', {
+      props: ['testValue'],
+      methods: {
+        handleClick() {
+          this.$emit('update:testValue', this.testValue + 2);
+        },
+      },
+      template: '<div @click="handleClick">{{testValue}}</div>',
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

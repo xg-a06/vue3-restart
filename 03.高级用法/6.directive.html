@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .header {
+        position: absolute;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          top: 100,
+        };
+      },
+      template: `
+        <div v-pos="top" class="header">
+          <input />
+        </div>
+        <button @click="top+=100">click</button>
+      `,
+    });
+    // // 仅且仅有mounted 和 updated 时触发相同行为时可简写为函数模式
+    // app.directive('pos', (el, binding) => {
+    //   el.style.top = `${binding.value}px`;
+    // });
+
+    // 全局的自定义指令
+    app.directive('pos', {
+      mounted(el, binding) {
+        el.style.top = `${binding.value}px`;
+      },
+      updated(el, binding) {
+        el.style.top = `${binding.value}px`;
+      },
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes shake {
+        0% {
+          transform: translateX(0px);
+        }
+        25% {
+          transform: translateX(-100px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(100px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
+      .test-leave-active,
+      .test-enter-active {
+        animation: shake 2s ease-out;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 过度样式默认名为v-enterxxxx  如果想更换自定义 则需要设置transition组件name属性 name=”test“ .test-enter-from
+    // 或者直接指定具体样式名 如enter-from-class="xxxx"
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: false,
+        };
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show;
+        },
+      },
+      template: `
+        <!-- <transition enter-active-class="test-leave-active"> -->
+        <transition name="test">
+          <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

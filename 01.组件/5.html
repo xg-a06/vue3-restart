@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 注意事件名跟父组件的属性名 驼峰问题是一样的
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 1,
+        };
+      },
+      methods: {
+        handleAdd(count) {
+          this.count = count;
+        },
+      },
+      template: `
+        <div>
+          <test :count="count" @add-one="handleAdd"/>
+        </div>
+      `,
+    });
+
+    app.component('test', {
+      props: ['count'],
+      emits: ['addOne'], //用来描述组件会抛出那些事件
+      // emits: {
+      //   addOne: (v) => {
+      //     if (v > 0) {
+      //       return true;
+      //     }
+      //     return false;
+      //   },
+      // },
+      methods: {
+        handleClick() {
+          this.$emit('addOne', this.count - 2);
+        },
+      },
+      template: '<div @click="handleClick">{{count}}</div>',
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

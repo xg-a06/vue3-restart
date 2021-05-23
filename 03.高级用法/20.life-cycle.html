@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const {
+          ref,
+          onBeforeMount,
+          onMounted,
+          onBeforeUpdate,
+          onUpdated,
+          onRenderTracked,
+          onRenderTriggered,
+        } = Vue;
+
+        const name = ref('123');
+
+        onBeforeMount(() => {
+          console.log('onBeforeMount');
+        });
+        onMounted(() => {
+          console.log('onMounted');
+        });
+        onBeforeUpdate(() => {
+          console.log('onBeforeUpdate');
+        });
+        onUpdated(() => {
+          console.log('onUpdated');
+        });
+        //收集响应式依赖 在mounted和updated之前执行
+        onRenderTracked(() => {
+          console.log('onRenderTracked');
+        });
+        //触发重渲染时执行 在beforeupdate之前执行
+        onRenderTriggered(() => {
+          console.log('onRenderTriggered');
+        });
+
+        return { name };
+      },
+      template: `
+        <div @click="name+='1'">
+            {{name}}
+        </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

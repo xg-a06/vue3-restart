@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          count1: 1,
+          count2: 2,
+          message: 'a',
+        };
+      },
+      template: `
+        <div>
+          <test 
+            v-model:count1="count1"
+            v-model:count2="count2"
+            v-model:message.upper="message"
+          />
+        </div>
+      `,
+    });
+
+    app.component('test', {
+      props: ['count1', 'count2', 'message', 'messageModifiers'],
+      mounted() {
+        console.log(this.modelModifiers);
+      },
+      methods: {
+        handleCount1() {
+          this.$emit('update:count1', this.count1 + 2);
+        },
+        handleCount2() {
+          this.$emit('update:count2', this.count2 + 3);
+        },
+        handleMassage() {
+          let v = this.message + 'b';
+          if (this.messageModifiers.upper) {
+            v = v.toUpperCase();
+          }
+          this.$emit('update:message', v);
+        },
+      },
+      template: `
+      <div>
+        <div @click="handleCount1">{{count1}}</div>
+        <div @click="handleCount2">{{count2}}</div>
+        <div @click="handleMassage">{{message}}</div>
+      </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

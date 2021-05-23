@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 有些场景需要更灵活的控制 这个时候刻意采用底层render函数
+    const app = Vue.createApp({
+      template: `
+        <my-test :level="1">
+          test
+        </my-test>
+      `,
+    });
+
+    app.component('my-test', {
+      props: ['level'],
+      render() {
+        const { h } = Vue;
+        return h(`h${this.level}`, {}, this.$slots.default());
+      },
+      // template: `
+      // <h1 v-if="level===1"><slot/></h1>
+      // <h2 v-if="level===2"><slot/></h2>
+      // <h3 v-if="level===3"><slot/></h3>
+      // `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

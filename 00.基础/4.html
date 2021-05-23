@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          item: '',
+          list: [],
+        };
+      },
+      methods: {
+        handleAddItem() {
+          if (this.item) {
+            this.list.push(this.item);
+            this.item = '';
+          }
+        },
+      },
+      template: `
+      <div>
+        <input v-model="item"/>
+        <button v-bind:title="item" v-on:click="handleAddItem">add</button>
+        <ul>
+          <todo-item 
+          v-for="(item,index) of list" 
+          v-bind:content="item"
+          v-bind:index="index"
+          />
+        </ul>
+      </div>
+      `,
+    });
+
+    app.component('todo-item', {
+      props: ['content', 'index'],
+      template: `<div>{{index}}.{{content}}</div>`,
+    });
+
+    app.mount('#root');
+  </script>
+</html>

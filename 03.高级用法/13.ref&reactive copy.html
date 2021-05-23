@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // ref和reactive 响应式的引用
+    // ref处理基础数据类型 template进行了处理不用.value访问 实际上变成proxy({value:'xxx'})
+    // reactive处理非基础数据类型 实际上变成proxy({key:value})
+    const app = Vue.createApp({
+      template: `
+        <div @click="count+=1">
+            count:{{count}}
+            name:{{obj.name}}
+            age:{{age}}
+            test:{{test}}
+            name1:{{readOnlyObj.name}}
+            arr:{{arr}}
+        </div>
+      `,
+      setup(props, context) {
+        let count = Vue.ref(18);
+        setTimeout(() => {
+          count.value = 20;
+        }, 2000);
+
+        const arr = Vue.reactive([1, 2, 3]);
+        setTimeout(() => {
+          arr[0] = 4;
+        }, 2000);
+
+        const obj = Vue.reactive({ name: 'aaa', age: 18 });
+        const readOnlyObj = Vue.readonly(obj);
+        setTimeout(() => {
+          obj.name = 'bb';
+          obj.age = 666;
+          // readOnlyObj.name = 'bb'; //error
+        }, 2000);
+
+        const { age } = Vue.toRefs(obj);
+
+        return {
+          count,
+          obj,
+          arr,
+          readOnlyObj,
+          age,
+        };
+      },
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

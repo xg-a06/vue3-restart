@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes shake {
+        0% {
+          transform: translateX(0px);
+        }
+        25% {
+          transform: translateX(-100px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(100px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
+      .v-enter-from {
+        color: red;
+      }
+      .v-enter-to {
+        color: blue;
+      }
+      .v-leave-from {
+        color: blue;
+      }
+      .v-leave-to {
+        color: red;
+      }
+      .v-leave-active,
+      .v-enter-active {
+        transition: all 1s ease-out;
+        animation: shake 5s ease-out;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 设置transition组件type属性表示 当过度和动画时间不一致的时候 以谁的时间为准
+    // 设置transition组件duration属性表示无论动画还是过度都以这个时间为准 如:duration="1000" 则过度和动画都只执行1秒
+    // duration还可以设置成对象 分别控制入场和离场 如:{enter:1000,leave:2000}
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: false,
+        };
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show;
+        },
+      },
+      template: `
+        <transition type="transition">
+          <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

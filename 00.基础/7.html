@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- <div id="root"><div >{{message}}</div></div> -->
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          // html: '<strong>hello world</strong>', // 1
+          message: 'hello world',
+          // show: true, // 3
+          // name: 'title',
+          // event: 'click',
+        };
+      },
+      methods: {
+        handleClick(e) {
+          // e.preventDefault();
+          console.log('click');
+        },
+      },
+      // template: '<div v-html="html"></div>', // 1
+      // template: `<div v-once>{{message}}</div>`, // 2
+      // template: `<div v-if="show">{{message}}</div>`, // 3
+      // template: `<div v-on:click="handleClick">{{message}}</div>`,
+      // template: `<div @[event]="handleClick" :[name]="message">{{message}}</div>`, // 4
+      template: `
+        <form action="https://www.baidu.com" @click.prevent="handleClick">
+          <button>click</button>  
+        </form>
+      `,
+    });
+    const vm = app.mount('#root');
+    // vm.$data.message='test' // 2
+    // vm.$data.show = false; // 3
+  </script>
+</html>

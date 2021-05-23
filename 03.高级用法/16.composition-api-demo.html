@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const inputValueRefEffect = () => {
+      const { ref } = Vue;
+
+      const inputValue = ref('');
+
+      const handleInput = (e) => {
+        inputValue.value = e.target.value;
+      };
+
+      return {
+        inputValue,
+        handleInput,
+      };
+    };
+
+    const listReactiveEffect = () => {
+      const { reactive } = Vue;
+      const list = reactive([]);
+      const handleClick = (item) => {
+        if (item) {
+          list.push(item);
+        }
+      };
+
+      return {
+        list,
+        handleClick,
+      };
+    };
+
+    const app = Vue.createApp({
+      setup() {
+        const { inputValue, handleInput } = inputValueRefEffect();
+        const { list, handleClick } = listReactiveEffect();
+
+        const handleSubmit = () => {
+          handleClick(inputValue.value);
+          inputValue.value = '';
+        };
+
+        return {
+          inputValue,
+          handleInput,
+          list,
+          handleSubmit,
+        };
+      },
+      template: `
+        <div>
+            <div>
+              <input :value="inputValue" @input="handleInput"/>
+              <button @click="handleSubmit">click</button>
+            </div>
+            <ul>
+              <li v-for="item in list" :key="item">{{item}}</li>
+            </ul>
+        </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

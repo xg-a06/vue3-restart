@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const { reactive, watch, toRefs, watchEffect } = Vue;
+
+        const obj = reactive({ name: '', name1: '' });
+
+        const { name, name1 } = toRefs(obj);
+
+        const stopWatch = watch(
+          [name, name1],
+          (currentArr, prevArr) => {
+            console.log(currentArr, prevArr);
+            setTimeout(() => {
+              stopWatch();
+            }, 2000);
+          },
+          {
+            immediate: true,
+          }
+        );
+
+        // 首次即执行 不需要显示指定监听对象 没办法拿到prev的值 必须value？？
+        const stopWatchEffect = watchEffect(() => {
+          console.log(name.value);
+          console.log(name1.value);
+          setTimeout(() => {
+            stopWatchEffect();
+          }, 2000);
+        });
+
+        return { name, name1 };
+      },
+      template: `
+        <div >
+            <input v-model="name"/>
+            {{name}}
+            <input v-model="name1"/>
+            {{name1}}
+        </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

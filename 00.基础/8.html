@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- <div id="root"><div >{{message}}</div></div> -->
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'hello world',
+          count: 2,
+          price: 5,
+          newTotal: 10,
+        };
+      },
+      methods: {
+        handleClick() {
+          console.log('click', this.message);
+        },
+        testParam(param) {
+          return param.toUpperCase();
+        },
+        //没有缓存,组件每次渲染都会调用
+        getTotal() {
+          console.log('call method');
+          return this.count * this.price;
+        },
+      },
+      computed: {
+        total() {
+          console.log('call computed');
+          return this.count * this.price;
+        },
+      },
+      watch: {
+        //能用计算属性实现就不要用watch
+        price(current, prev) {
+          this.newTotal = current * this.count;
+          console.log('price change', current, prev);
+        },
+      },
+      template: `
+      <div @click="handleClick">
+        {{testParam(message)}}
+        {{total}}
+        {{getTotal()}}
+        {{newTotal}}
+      </div>`,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

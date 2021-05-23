@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .v-leave-to,
+      .v-enter-from {
+        opacity: 0;
+      }
+      .v-leave-active,
+      .v-enter-active {
+        transition: opacity 0.5s ease-out;
+      }
+      .v-leave-from,
+      .v-enter-to {
+        opacity: 1;
+      }
+
+      .v-move {
+        transition: all 0.5s ease-out;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 状态动画
+    const app = Vue.createApp({
+      data() {
+        return {
+          number: 1,
+          animateNumber: 1,
+        };
+      },
+      methods: {
+        handleClick() {
+          this.number = 10;
+          const cn = this.animateNumber;
+          const timerId = setInterval(() => {
+            if (this.animateNumber < this.number) {
+              this.animateNumber += 1;
+            } else {
+              clearInterval(timerId);
+            }
+          }, 100);
+        },
+      },
+      template: `
+        <div >{{animateNumber}}</div>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

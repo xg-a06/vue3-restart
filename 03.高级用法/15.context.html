@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      methods: {
+        handleEvent(v) {
+          console.log('handleEvent', v);
+        },
+      },
+      template: `
+        <test @handleEvent="handleEvent">
+            asdasd
+        </test>
+      `,
+    });
+
+    app.component('test', {
+      template: `<div @click="handleClick"><slot/></div>`,
+      setup(props, context) {
+        const { attrs, slots, emit } = context;
+        console.log(attrs); //接受none props属性
+        // console.log(slots.default()); //接受插槽
+        // return () => Vue.h('div', {}, slots.default());
+        return {
+          handleClick: () => {
+            emit('handleEvent', 123);
+          },
+        };
+      },
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // mixin问题 重复mixin 无法追踪
+    const testMixin = {
+      data() {
+        return { number2: 2 };
+      },
+      created() {
+        console.log('mixin created');
+      },
+      methods: {
+        handleClick() {
+          console.log('mixin handleClick');
+        },
+      },
+    };
+
+    const app = Vue.createApp({
+      data() {
+        return {
+          number: 1,
+        };
+      },
+      mixins: [testMixin],
+      created() {
+        console.log('com created');
+      },
+      methods: {
+        handleClick() {
+          console.log('com handleClick');
+        },
+      },
+      template: `
+        <div >{{number}}</div>
+        <div >{{number2}}</div>
+        <child/>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    app.component('child', {
+      mixins: [testMixin],
+      template: `<div>child com</div>`,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

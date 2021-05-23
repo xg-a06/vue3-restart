@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // layz修饰符相当于change时候执行
+    // number修饰符可以做类型转化
+    // trim去除前后空格
+    const app = Vue.createApp({
+      data() {
+        return {
+          check: '',
+          message: 'test',
+          number: 0,
+          message1: '',
+        };
+      },
+      template: `
+        <div >
+          {{check}}
+          <input type="checkbox" v-model="check" true-value="aaa" false-value="bbb"/>
+          {{message}}
+          <input v-model.lazy="message"/>
+          {{typeof number}}
+          <input v-model.number="number"/>
+          {{message1}}
+          <input v-model.trim="message1"/>
+        </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>
+
+<!-- 放射科
+1.R12.3版本
+跟进并修复产品提出的R12.3版本验收问题。修复情况：产品验收文档
+跟进并修复测试组提出的R12.3版本bug。修复情况：R12.3提测单
+
+2.其他问题
+支持泰康matrix项目需求评审及开发任务拆解。
+继续优化前端打包工具（修复在使用中发现的问题）。
+协助新员工交接工作，确认交接细节。  交接文档
+
+
+胸外科
+1.H3.4版本
+本周进行了H3.4版本功能开发，完成了结构化报告和VR中心点计算的优化工作以及图文报告多角度截图功能，目前整体开发进度正常。
+开发计划：H3.4版本开发计划
+
+
+
+冠脉CTA
+1.冠脉R1.0版本
+跟进并修复产品提出的冠脉R1.0版本验收问题，基本修复完成。修复情况：产品验收文档
+跟进并修复测试组提出的冠脉R1.0版本bug。修复情况：冠脉R1.0提测单
+
+
+2.其他问题
+就SSR渲染方案跟后端和模型的开发人员以及产品进行二次沟通讨论，基本敲定80%功能细节，剩余前端跟模型联动细节再下周二进行收尾。设计文档：design-ssr-1.0
+对武汉中南研发医院的图像过滤规则和预测情况进行跟踪，最近一周收图数量对齐医院ris结果，共预测48例检查，其中47例成功，失败1例（已请执行回传具体图像，之后进行失败分析）。
+
+
+团队工作
+本周通过筛选简历，约见两人进行面试。1人通过面试已发offer，一人通过初试，下周进行复试。 -->

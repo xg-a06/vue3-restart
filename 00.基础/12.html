@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 0,
+        };
+      },
+      methods: {
+        handleClick0(e) {
+          console.log('handleClick0', e.target);
+          this.count += 1;
+        },
+        handleClick1(number, e) {
+          console.log('handleClick1', e.target);
+          this.count += number;
+        },
+        handleClick2(e) {
+          console.log('handleClick2', e.target);
+        },
+        divClick() {
+          console.log('divClick');
+        },
+      },
+      // 绑定多个函数必须写括号让其调用
+      // 修饰符又很多 self prevent stop capture once passive(提升滚动性能)
+      template: `
+        <div @click.self="divClick">
+          {{count}}
+          <button @click.stop="count+=1">add</button>
+          <button @click="handleClick0($event)">add</button>
+          <button @click="handleClick1(2,$event)">add</button>
+          <button @click.once="handleClick1(2,$event),handleClick2($event)">add</button>
+        </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

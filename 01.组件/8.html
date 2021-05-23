@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 普通插槽
+    const app = Vue.createApp({
+      data() {
+        return {
+          text1: 'asdasdasd',
+          text2: 'sdfsdfsdf',
+        };
+      },
+      template: `
+        <div>
+          <test>
+            <div>{{text1}}</div>
+          </test>
+          <test>
+            <div>{{text2}}</div>
+          </test>
+          <test>
+          </test>
+        </div>
+      `,
+    });
+
+    app.component('test', {
+      methods: {
+        handleClick() {
+          console.log(1111);
+        },
+      },
+      template: `
+      <div>
+        <input />
+        <div @click="handleClick">
+        <slot><div>default</div></slot>
+        </div>
+      </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

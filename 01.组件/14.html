@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // provide inject 跨多层级传递数据
+    // 如果要传递根组件data 不能直接写 因为生命周期还没有data 需要变成函数 但是依然没有响应式 需要用vue3高级语法解决
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 1,
+        };
+      },
+      // provide: {
+      //   count: this.count,
+      // },
+      provide() {
+        return {
+          count: this.count,
+        };
+      },
+      template: `
+        <div @click="count+=1">
+         <son :count="count"/>
+        </div>
+      `,
+    });
+
+    app.component('son', {
+      template: `<grandson/>`,
+    });
+
+    app.component('grandson', {
+      inject: ['count'],
+      template: `<div>{{count}}</div>`,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

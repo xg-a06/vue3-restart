@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .red {
+        color: red;
+      }
+      .green {
+        color: green;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          classStr: 'red',
+          classObj: { red: false, green: true },
+          classArr: ['red', 'green', { brown: true }],
+          styleStr: 'color:blue;',
+          styleObj: {
+            color: 'blue',
+            background: 'yellow',
+          },
+        };
+      },
+      // template: `<div :class="classStr">hello world</div>`,
+      // template: `<div :class="classArr">hello world</div>`,
+      // class直接写在组件上只有一个子元素的时候刻意生效，否则无效 刻意使用$attrs获取组件上的属性
+      template: `
+        <div :class="classStr">
+          hello world
+          <demo class="green"/>
+          <div style="color:blue;">inline</div>
+          <div :style="styleStr">inline</div>
+          <div :style="styleObj">inline</div>
+          </div>
+        `,
+    });
+
+    app.component('demo', {
+      template: `
+      <div :class="$attrs.class">test1</div>
+      <div class="green">test2</div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @keyframes leftToRight {
+        0% {
+          transform: translateX(0px);
+        }
+        25% {
+          transform: translateX(-100px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(100px);
+        }
+        100% {
+          transform: translateX(0px);
+        }
+      }
+      .animation {
+        animation: leftToRight 3s linear;
+      }
+      .blue {
+        background-color: blue;
+      }
+      .red {
+        background-color: red;
+      }
+      .transition {
+        transition: 3s background-color linear;
+      }
+      .wrap {
+        position: absolute;
+        left: 200px;
+        color: white;
+      }
+    </style>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 过度 状态的变化 如颜色渐变
+    // 动画 运动的情况 如元素移动
+    const app = Vue.createApp({
+      data() {
+        return {
+          animate: {
+            wrap: true,
+            animation: false,
+            transition: true,
+            blue: true,
+            red: false,
+          },
+        };
+      },
+      methods: {
+        handleClick() {
+          this.animate.animation = true;
+          this.animate.blue = !this.animate.blue;
+          this.animate.red = !this.animate.red;
+        },
+      },
+      template: `
+        <div :class="animate">
+          hello world
+        </div>
+        <button @click="handleClick">start</button>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

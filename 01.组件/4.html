@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // Non-prop 父组件传值若子组件不接收 那么会变成prop显示到element元素上 如果不想使用次特性 需要在子组件上使用inheritAttrs:false
+    const app = Vue.createApp({
+      template: `
+        <div>
+          <test count="count"/>
+        </div>
+      `,
+    });
+
+    app.component('test', {
+      // inheritAttrs: false,
+      mounted() {
+        console.log(this.$attrs);
+      },
+      template: '<div>tttt</div>',
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>

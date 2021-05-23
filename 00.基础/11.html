@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          list: ['aaa', 'bbb', 'ccc'],
+          listObj: {
+            a: 'a',
+            b: 'b',
+            c: 'c',
+          },
+        };
+      },
+      methods: {
+        handleClick() {
+          // this.list.push('hello');
+          // this.list.pop();
+          // this.list.shift();
+          // this.list.unshift('00');
+          // this.list.reverse();
+          // this.list = ['ffff', 'ddddd'];
+          // this.list = ['ffff', 'ddddd'].filter((i) => i === 'ddddd');
+          // this.list[1] = 'dd';
+
+          // this.listObj.d = 'd';
+          this.listObj = {
+            f: 'f',
+            d: 'd',
+          };
+        },
+      },
+      // v-if优先级比v-for高 所以直接写v-if会导致什么都没有  v-show刻意用 如果想使用v-if那么再包一层
+      template: `
+        <div>
+          <!-- <div v-for="item in list">{{item}}</div> -->
+          <!-- <div v-for="(item,index) in list">{{index}}.{{item}}</div> -->
+          <div v-for="(value,key,index) in listObj" :key="value" v-show="value!=='a'">
+            <template v-if="value==='b'">
+              {{index}}.{{key}}.{{value}}
+            </template>
+          </div>
+          <button @click="handleClick">add</button>
+          <div v-for="item in 10">{{item}}</div>
+        </div>
+      `,
+    });
+    const vm = app.mount('#root');
+  </script>
+</html>

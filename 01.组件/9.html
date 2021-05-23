@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script>
+    // 具名插槽 插槽名字可以简写#header替换掉v-slot:header
+    const app = Vue.createApp({
+      template: `
+        <div>
+          <layout>
+            <template #header>
+              <div>header</div>
+            </template>
+            <template v-slot:footer>
+              <div>footer</div>
+            </template>
+          </layout>
+        </div>
+      `,
+    });
+
+    app.component('layout', {
+      methods: {
+        handleClick() {
+          console.log(1111);
+        },
+      },
+      template: `
+      <div>
+        <slot name="header"></slot>
+        <div>content</div>
+        <slot name="footer"></slot>
+      </div>
+      `,
+    });
+
+    const vm = app.mount('#root');
+  </script>
+</html>
